@@ -87,5 +87,45 @@
  
  }
  
- findDoc();
+ //findDoc();
 
+
+
+ /*////////////////////////////////*/
+ /* function insertDoc exercise 5  */
+ /*////////////////////////////////*/
+
+ function insertDoc(){
+
+    var mongo = require('mongodb').MongoClient; // load mongo module
+    var url = "mongodb://localhost:27017/learnyoumongo";
+
+    var doc = {
+        
+        firstName: process.argv[2], // firstname,
+        lastName: process.argv[3]  // lastname
+    };
+    
+    mongo.connect(url, function(err, dbase) {
+        
+        if(!err){
+
+                dbase.collection('docs').insert(
+                  doc // inserting document
+                , function(err, data) {
+                  // handle error
+                  if(!err){
+                      console.log(JSON.stringify(doc));
+                  }
+                  // other operations
+                });           
+                            
+        }
+                        
+        dbase.close(); // close connection
+                
+    });
+                 
+ }
+ 
+ insertDoc();
