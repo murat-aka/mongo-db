@@ -240,5 +240,58 @@
     });
  }
  
- countDoc(); 
+ //countDoc(); 
+ 
+ 
+ 
+ 
+ /*////////////////////////////////////*/
+ /* function aggregateDoc  exercise 8  */
+ /*////////////////////////////////////*/
+
+ function aggDoc(){
+
+
+    var s = process.argv[2];
+    
+    var mongo = require('mongodb').MongoClient; // load mongo module
+    var url = "mongodb://localhost:27017/learnyoumongo";
+
+    mongo.connect(url, function(err, dbase) {
+        
+        if(!err){
+            
+
+              // Execute aggregate, notice the pipeline is expressed as an Array
+              dbase.collection('prices').aggregate([
+                { $match: { size: s }}
+                , { $group: {
+                    _id: 'avarage' // This can be an arbitrary string in this case
+                  , avarage: {
+                      // $avg is the operator used here
+                      $avg: '$price'
+                    }
+                  }}
+                ]).toArray(function(err, results) {
+                  // handle error
+                  
+                  var v = results[0].avarage;
+                  v = Number(v).toFixed(2);
+                  if(!err){
+                     console.log(v);
+                  }
+                  
+                  // => [
+                  // =>   { _id: 'total', total: 11 }
+                  // => ]
+
+              });              
+                
+        }
+                        
+        dbase.close(); // close connection
+    });
+ }
+ 
+ aggDoc(); 
  
