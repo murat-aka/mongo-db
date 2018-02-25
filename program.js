@@ -165,4 +165,41 @@
     });
  }
  
- updateDoc();
+ //updateDoc();
+ 
+ 
+ 
+ 
+ /*////////////////////////////////*/
+ /* function removeDoc exercise 7  */
+ /*////////////////////////////////*/
+
+ function removeDoc(){
+
+    var db = process.argv[2];
+    var co = process.argv[3];
+    var id = process.argv[4];
+    var mongo = require('mongodb').MongoClient; // load mongo module
+    var url = "mongodb://localhost:27017/" + db;
+
+    mongo.connect(url, function(err, dbase) {
+        
+        if(!err){
+            
+                dbase.collection(co).remove(
+                  { _id: id } // removing document
+
+                , function(err, data) {
+                  // handle error
+                  if(!err){
+                      //console.log(JSON.stringify(doc));
+                  }
+                  // other operations
+                });           
+        }
+                        
+        dbase.close(); // close connection
+    });
+ }
+ 
+ removeDoc();
