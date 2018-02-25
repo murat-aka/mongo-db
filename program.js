@@ -202,4 +202,43 @@
     });
  }
  
- removeDoc();
+ //removeDoc();
+
+
+
+
+ /*////////////////////////////////*/
+ /* function countDoc  exercise 8  */
+ /*////////////////////////////////*/
+
+ function countDoc(){
+
+
+    var limit = process.argv[2];
+    
+    var mongo = require('mongodb').MongoClient; // load mongo module
+    var url = "mongodb://localhost:27017/learnyoumongo";
+
+    mongo.connect(url, function(err, dbase) {
+        
+        if(!err){
+            
+                dbase.collection('parrots').count({
+                age: {
+                  $gt : +limit  // greater than
+                }
+                }, function(err, data) {
+                  // handle error
+                  if(!err){
+                      console.log(data);
+                  }
+                  // other operations
+                });           
+        }
+                        
+        dbase.close(); // close connection
+    });
+ }
+ 
+ countDoc(); 
+ 
